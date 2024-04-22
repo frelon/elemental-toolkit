@@ -58,7 +58,12 @@ func RunMount(cfg *types.RunConfig, spec *types.MountSpec) error {
 			cfg.Logger.Errorf("Error mounting volumes: %s", err.Error())
 			return err
 		}
+	}
 
+	cfg.Logger.Debug("Mounting encrypted devices")
+	if err = MountEncryptedVolumes(cfg, spec); err != nil {
+		cfg.Logger.Errorf("Error mounting encrypted devices: %s", err.Error())
+		return err
 	}
 
 	cfg.Logger.Debug("Mounting volumes")
@@ -93,6 +98,19 @@ func RunMount(cfg *types.RunConfig, spec *types.MountSpec) error {
 
 	cfg.Logger.Info("Mount command finished successfully")
 	return nil
+}
+
+func MountEncryptedVolumes(cfg *types.RunConfig, spec *types.MountSpec) error {
+	if !spec.Persistent.Encrypted {
+		cfg.Logger.Debug("No encrypted devices specified")
+		return nil
+	}
+
+	data, err := cfg.Runner.Run("systemd-cryptsetup", "attach", "cr_persistent", "/dev/disk/by-partlabel/persistent")
+	if err != nil {
+		cfg.Logger.Errorf("Failed unlocking persistent partition: %s\nLogs: %s", err.Error(), string(data))
+	}
+	return err
 }
 
 func MountVolumes(cfg *types.RunConfig, spec *types.MountSpec) error {

@@ -105,6 +105,10 @@ const (
 	PersistentStateDir = ".state"
 	RunningStateDir    = "/run/initramfs/elemental-state" // TODO: converge this constant with StateDir/RecoveryDir when moving to elemental-rootfs as default rootfs feature.
 
+	// Disk encryption constants
+	PersistentDeviceMapperName = "cr_persistent"
+	PersistentDeviceMapperPath = "/dev/mapper/" + PersistentDeviceMapperName
+
 	// Running mode sentinel files
 	ActiveMode   = "/run/elemental/active_mode"
 	PassiveMode  = "/run/elemental/passive_mode"

@@ -345,6 +345,9 @@ func applyKernelCmdline(r *types.RunConfig, mount *types.MountSpec) error {
 					Options:    []string{"rw", "defaults"},
 				})
 			}
+		case "elemental.persistent.encrypted":
+			mount.Persistent.Encrypted = true
+			mount.Persistent.Volume.Device = constants.PersistentDeviceMapperPath
 		}
 	}
 

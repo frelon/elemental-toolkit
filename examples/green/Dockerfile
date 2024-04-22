@@ -64,6 +64,7 @@ RUN ARCH=$(uname -m); \
       btrfsprogs \
       btrfsmaintenance \
       snapper \
+      cryptsetup \
       ${ADD_PKGS} && \
     zypper clean --all
 

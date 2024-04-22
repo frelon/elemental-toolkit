@@ -57,6 +57,7 @@ RUN ARCH=$(uname -m); \
         gptfdisk \
         patterns-microos-selinux \
         btrfsprogs \
+        cryptsetup \
         lvm2 && \
     zypper cc -a
 
